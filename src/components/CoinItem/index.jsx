@@ -4,6 +4,8 @@ import { AntDesign } from "@expo/vector-icons";
 import styles from "./styles";
 
 const CoinItem = () => {
+
+  
   return (
     <View style={styles.coinContainer}>
       <Image
