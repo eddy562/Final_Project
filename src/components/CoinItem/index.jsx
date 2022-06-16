@@ -3,15 +3,37 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "./styles";
 
-const CoinItem = () => {
 
+const CoinItem = ({ marketCoin }) => {
+  const {
+    name,
+    current_price,
+    market_cap_rank,
+    market_cap_change_percentage_24h,
+    symbol,
+    market_cap,
+    image,
+  } = marketCoin;
+
+  const normalizeMarketCap = (marketCap) => {
+
+    if (marketCap > 1000000000000){
+      return `${Math.floor(marketCap / 1000000000000)} T`
+    } if (marketCap > 1000000000){
+      return `${Math.floor(marketCap / 1000000000)} B`
+     } if (marketCap > 1000000){
+        return `${Math.floor(marketCap / 100000)} M`
+      } if (marketCap > 1000){
+        return `${Math.floor(marketCap / 1000)} K`
+      }
+return marketCap;
+  };
   
+
   return (
     <View style={styles.coinContainer}>
       <Image
-        source={{
-          uri: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
-        }}
+        source={{ uri: image }}
         style={{
           height: 30,
           width: 30,
@@ -21,24 +43,26 @@ const CoinItem = () => {
       />
 
       <View>
-        <Text style={styles.title}>Bitcoin</Text>
+        <Text style={styles.title}>{name}</Text>
         <View style={{ flexDirection: "row" }}>
           <View style={styles.rankContainer}>
-            <Text style={styles.rank}>1 </Text>
+            <Text style={styles.rank}>{market_cap_rank}</Text>
           </View>
-          <Text style={styles.text}>BTC </Text>
+          <Text style={styles.text}>{symbol.toUpperCase()}</Text>
           <AntDesign
             name="caretdown"
             size={12}
             color="white"
             style={{ alignSelf: "center", marginRight: 5 }}
           />
-          <Text style={styles.text}>0,63% </Text>
+          <Text style={styles.text}>
+            {market_cap_change_percentage_24h.toFixed(2)}%
+          </Text>
         </View>
       </View>
-      <View style={{ marginLeft: "auto" }}>
-        <Text style={styles.title}>56265.09</Text>
-        <Text style={styles.text}>MCap 1.076 T</Text>
+      <View style={{ marginLeft: "auto", alignItems:'flex-end' }}>
+        <Text style={styles.title}>{current_price}</Text>
+        <Text style={{color:'white'}}>MCap {normalizeMarketCap (market_cap)}</Text>
       </View>
     </View>
   );
