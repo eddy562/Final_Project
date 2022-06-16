@@ -9,11 +9,14 @@ const CoinItem = ({ marketCoin }) => {
     name,
     current_price,
     market_cap_rank,
-    market_cap_change_percentage_24h,
+    price_change_percentage_24h,
     symbol,
     market_cap,
     image,
   } = marketCoin;
+
+ const percentageColor = price_change_percentage_24h < 0 ? '#ea3943':'#16c784'
+
 
   const normalizeMarketCap = (marketCap) => {
 
@@ -50,13 +53,13 @@ return marketCap;
           </View>
           <Text style={styles.text}>{symbol.toUpperCase()}</Text>
           <AntDesign
-            name="caretdown"
+            name={price_change_percentage_24h< 0 ? 'caretdown': 'caretup'}
             size={12}
-            color="white"
+            color={percentageColor}
             style={{ alignSelf: "center", marginRight: 5 }}
           />
-          <Text style={styles.text}>
-            {market_cap_change_percentage_24h.toFixed(2)}%
+          <Text style={{color:percentageColor}}>
+            {price_change_percentage_24h.toFixed(2)}%
           </Text>
         </View>
       </View>
